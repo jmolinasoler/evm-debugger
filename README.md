@@ -12,13 +12,15 @@ When doing bug bounty analysis on smart contracts, it's common to fork a mainnet
 
 *   **Web Interface:** Access debug information from your browser.
 *   **Real-time Data:** Fetches the latest data from your Anvil instance on each page refresh.
+*   **Block Inspection:**
+    *   Search for any block by its number or hash to view its full details.
+    *   The last 5 blocks are displayed on the homepage for quick access.
 *   **Key Information:** Displays essential EVM details:
     *   Connection Status & RPC URL
     *   Chain ID & Network Name
-    *   Current Block Number
+    *   Current Block Number & Latest Block Details
     *   Current Gas Price
     *   Balance of a default Anvil account
-    *   Latest Block Details (Hash, Timestamp, Miner, etc.)
 *   **Scalable Architecture:** Built with an MVC (Model-View-Controller) pattern to make it easy to extend with new features.
 
 ## Prerequisites
