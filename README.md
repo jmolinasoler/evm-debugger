@@ -11,10 +11,14 @@ When doing bug bounty analysis on smart contracts, it's common to fork a mainnet
 ## Features
 
 *   **Web Interface:** Access debug information from your browser.
-*   **Real-time Data:** Fetches the latest data from your Anvil instance on each page refresh.
-*   **Block Inspection:**
+*   **Live Block Feed:**
+    *   The "Recent Blocks" section auto-refreshes every 4 seconds to provide real-time insight.
+    *   Auto-refresh can be paused and resumed via a checkbox.
+    *   Your preference for auto-refresh and transaction filtering is saved in your browser.
+*   **Block Filtering and Inspection:**
+    *   Filter recent blocks to instantly see only those containing transactions.
     *   Search for any block by its number or hash to view its full details.
-    *   The last 5 blocks are displayed on the homepage for quick access.
+*   **Block Inspection:**
 *   **Key Information:** Displays essential EVM details:
     *   Connection Status & RPC URL
     *   Chain ID & Network Name
