@@ -1,3 +1,4 @@
+const url = require('url');
 const anvilModel = require('../models/anvil');
 const debugView = require('../views/debugView');
 
@@ -7,13 +8,32 @@ const debugView = require('../views/debugView');
  * @param {import('http').ServerResponse} res - The response object.
  */
 async function showDebugInfo(req, res) {
+    const parsedUrl = url.parse(req.url, true);
+    const blockQuery = parsedUrl.query.block;
+
+    let searchResult = {};
+
     try {
+        // Always fetch the main debug info
         const data = await anvilModel.getDebugInfo();
-        const htmlResponse = debugView.render(data, null);
+
+        // If there's a block search query, fetch that block
+        if (blockQuery) {
+            searchResult.searchQuery = blockQuery;
+            const block = await anvilModel.getBlock(blockQuery);
+            if (block) {
+                searchResult.searchedBlock = block;
+            } else {
+                searchResult.searchError = `Block "${blockQuery}" not found.`;
+            }
+        }
+
+        const htmlResponse = debugView.render(data, searchResult, null);
         res.writeHead(200, { 'Content-Type': 'text/html' });
         res.end(htmlResponse);
     } catch (error) {
-        const htmlResponse = debugView.render(null, error);
+        // This catches errors from getDebugInfo() or getBlock()
+        const htmlResponse = debugView.render(null, {}, error);
         res.writeHead(500, { 'Content-Type': 'text/html' });
         res.end(htmlResponse);
     }

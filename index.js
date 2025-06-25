@@ -1,11 +1,14 @@
  const http = require('http');
+ const url = require('url');
  const debugController = require('./controllers/debugController');
 
  const SERVER_PORT = 3000;
 
 // Create the HTTP server and act as a simple router
 const server = http.createServer((req, res) => {
-  if (req.url === '/' && req.method === 'GET') {
+  const parsedUrl = url.parse(req.url);
+
+  if (parsedUrl.pathname === '/' && req.method === 'GET') {
     debugController.showDebugInfo(req, res);
   } else {
     res.writeHead(404, { 'Content-Type': 'text/plain' });
