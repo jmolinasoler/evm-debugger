@@ -32,16 +32,26 @@ function render(data, { searchedBlock, searchError, searchQuery } = {}, error) {
 
         `;
 
-        if (data.latestBlock) {
+        // Find the latest block with at least one transaction from the recent blocks
+        const latestBlockWithTx = data.recentBlocks ? data.recentBlocks.find(b => b.transactions.length > 0) : null;
+
+        if (latestBlockWithTx) {
             mainContent += `
                 <div class="section-container">
-                    <h2>Latest Block Details (#${data.blockNumber})</h2>
+                    <h2>Latest Block With Transaction (#${latestBlockWithTx.number})</h2>
                     <div class="info-grid">
-                        <strong>Block Hash:</strong><code>${data.latestBlock.hash}</code>
-                        <strong>Timestamp:</strong><span>${new Date(Number(data.latestBlock.timestamp) * 1000).toLocaleString()}</span>
-                        <strong>Miner/Proposer:</strong><code>${data.latestBlock.miner}</code>
-                        <strong>Transaction Count:</strong><span>${data.latestBlock.transactions.length}</span>
+                        <strong>Block Hash:</strong><code>${latestBlockWithTx.hash}</code>
+                        <strong>Timestamp:</strong><span>${new Date(Number(latestBlockWithTx.timestamp) * 1000).toLocaleString()}</span>
+                        <strong>Miner/Proposer:</strong><code>${latestBlockWithTx.miner}</code>
+                        <strong>Transaction Count:</strong><span>${latestBlockWithTx.transactions.length}</span>
                     </div>
+                </div>
+            `;
+        } else {
+            mainContent += `
+                <div class="section-container">
+                    <h2>Latest Block With Transaction</h2>
+                    <p>No transactions found in recent blocks.</p>
                 </div>
             `;
         }
@@ -65,6 +75,19 @@ function render(data, { searchedBlock, searchError, searchQuery } = {}, error) {
                     </div>
                 </div>
             `;
+
+            // Add this section for blocks with one or more transactions
+            const blocksWithTxs = data.recentBlocks.filter(b => b.transactions.length > 0);
+            if (blocksWithTxs.length > 0) {
+                mainContent += `
+                    <div class="section-container">
+                        <h2>Blocks With Transactions (≥1)</h2>
+                        <div class="recent-blocks-list">
+                            ${renderRecentBlocks(blocksWithTxs)}
+                        </div>
+                    </div>
+                `;
+            }
         }
     }
 

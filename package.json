@@ -1,15 +1,16 @@
- {
+{
    "name": "anvil-debugger",
    "version": "1.0.0",
    "description": "A Node.js application to connect to Anvil EVM for debugging.",
    "main": "index.js",
    "scripts": {
-     "start": "node index.js"
+      "start": "node index.js"
    },
    "keywords": [],
    "author": "",
    "license": "ISC",
    "dependencies": {
-     "ethers": "^6.11.1"
+      "ethers": "^6.11.1",
+      "express": "^5.1.0"
    }
- }
+}
